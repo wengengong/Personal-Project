@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace personal_project
 {
@@ -12,11 +13,16 @@ namespace personal_project
         public double current { get; set; }
         public double resistance { get; set; }
 
-        public Component()
+        public PictureBox image;
+
+        public Component(double voltage, double current, double resistance, PictureBox image)
         {
-            voltage = 0;
-            current = 0;
-            resistance = 0;
+            this.voltage = voltage;
+            this.current = current;
+            this.resistance = resistance;
+            this.image = image;
         }
+
+
     }
 }
