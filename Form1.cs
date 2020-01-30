@@ -13,8 +13,12 @@ namespace personal_project
 {
     public partial class Form1 : Form
     {
+        //globle veriables
         circuit circuit = new circuit();
         int element_counter = 0;
+        Point start = new Point (-1,-1);
+        Point end = new Point(-1, -1);
+        Graphics line;
         public Form1()
         {
             InitializeComponent();
@@ -22,7 +26,7 @@ namespace personal_project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-                
+            line = CreateGraphics();
         }
 
         private void resistor_btn_Click(object sender, EventArgs e)
@@ -54,10 +58,32 @@ namespace personal_project
             }
             else
             {
+                //make the components non draggable
                 foreach (Component c in circuit.elements)
                 {
                     c.box.Draggable(false);
+                    c.box.Click += new EventHandler(connecting);
                 }
+            }
+        }
+
+        private void connecting(object sender, EventArgs e)
+        {
+            PictureBox temp = (sender as PictureBox);
+            Point nullpoint = new Point(-1, -1);
+            if (start == nullpoint)
+            {
+                start = temp.Location;
+            }
+            else if (temp.Location == start)
+            {
+                start = nullpoint; 
+            } 
+            else
+            {
+                end = temp.Location;
+                Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
+                line.DrawLine(pen, start, end);
             }
         }
     }
