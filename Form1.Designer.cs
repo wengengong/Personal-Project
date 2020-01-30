@@ -34,9 +34,10 @@
             // 
             // resistor_btn
             // 
-            this.resistor_btn.Location = new System.Drawing.Point(13, 42);
+            this.resistor_btn.Location = new System.Drawing.Point(10, 34);
+            this.resistor_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.resistor_btn.Name = "resistor_btn";
-            this.resistor_btn.Size = new System.Drawing.Size(75, 23);
+            this.resistor_btn.Size = new System.Drawing.Size(56, 19);
             this.resistor_btn.TabIndex = 0;
             this.resistor_btn.Text = "resistor";
             this.resistor_btn.UseVisualStyleBackColor = true;
@@ -44,22 +45,25 @@
             // 
             // connect_btn
             // 
-            this.connect_btn.Location = new System.Drawing.Point(13, 13);
+            this.connect_btn.BackColor = System.Drawing.Color.Gainsboro;
+            this.connect_btn.Location = new System.Drawing.Point(10, 11);
+            this.connect_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.connect_btn.Name = "connect_btn";
-            this.connect_btn.Size = new System.Drawing.Size(75, 23);
+            this.connect_btn.Size = new System.Drawing.Size(56, 19);
             this.connect_btn.TabIndex = 1;
             this.connect_btn.Text = "connect";
-            this.connect_btn.UseVisualStyleBackColor = true;
+            this.connect_btn.UseVisualStyleBackColor = false;
             this.connect_btn.Click += new System.EventHandler(this.connect_btn_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.connect_btn);
             this.Controls.Add(this.resistor_btn);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

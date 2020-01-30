@@ -19,6 +19,7 @@ namespace personal_project
         Point start = new Point (-1,-1);
         Point end = new Point(-1, -1);
         Graphics line;
+        bool connect = false;
         public Form1()
         {
             InitializeComponent();
@@ -34,7 +35,7 @@ namespace personal_project
             //creates a picture box for the resistor
             PictureBox temp = new PictureBox();
             temp.SizeMode = PictureBoxSizeMode.StretchImage;
-            temp.ClientSize = new Size(60, 60);
+            temp.ClientSize = new Size(35, 35);
             temp.Location = new Point(50, 50);
             temp.BackColor = Color.Green;
             temp.Name = "resistor" + element_counter;
@@ -52,17 +53,33 @@ namespace personal_project
 
         private void connect_btn_Click(object sender, EventArgs e)
         {
-            if (circuit.elements.Count < 2)
+            if (connect == false) 
             {
-                MessageBox.Show("There not enought elements to connect together");
+                if (circuit.elements.Count < 2)
+                {
+                    MessageBox.Show("There not enought elements to connect together");
+                }
+                else
+                {
+                    connect = true;
+                    connect_btn.BackColor = Color.LightGreen;
+                    //make the components non draggable and adds event handler for the picturebox
+                    foreach (Component c in circuit.elements)
+                    {
+                        c.box.Draggable(false);
+                        c.box.Click += new EventHandler(connecting);
+                    }
+                }
             }
             else
             {
-                //make the components non draggable
+                connect = false;
+                connect_btn.BackColor = Color.Gainsboro;
+                //makes dragable and removes event handler
                 foreach (Component c in circuit.elements)
                 {
-                    c.box.Draggable(false);
-                    c.box.Click += new EventHandler(connecting);
+                    c.box.Draggable(true);
+                    c.box.Click -= new EventHandler(connecting);
                 }
             }
         }
@@ -96,7 +113,8 @@ namespace personal_project
         public void draw_line(Point start, Point end)
         {
             Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
-            line.DrawLine(pen, start, end);
+            line.DrawLine(pen, start.X, start.Y, start.X, end.Y);
+            line.DrawLine(pen, start.X, end.Y, end.X, end.Y);
         }
     }
 }
