@@ -27,18 +27,38 @@ namespace personal_project
 
         private void resistor_btn_Click(object sender, EventArgs e)
         {
-            PictureBox test = new PictureBox();
-            test.SizeMode = PictureBoxSizeMode.StretchImage;
-            test.ClientSize = new Size(100, 40);
-            test.Location = new Point(10, 10);
-            test.Visible = true;
-            test.Draggable(true);
-            test.Image = Image.FromFile("images\\resistor.jpg");
-            test.Name = "resistor" + element_counter++;
-            Component element = new Component(0, 0, 100, test);
-            element.name = test.Name;
-            this.Controls.Add(element.image);
+            //creates a picture box for the resistor
+            PictureBox temp = new PictureBox();
+            temp.SizeMode = PictureBoxSizeMode.StretchImage;
+            temp.ClientSize = new Size(100, 40);
+            temp.Location = new Point(50, 50);
+            temp.BackColor = Color.Green;
+            temp.Name = "resistor" + element_counter;
+            element_counter++;
+            temp.Visible = true;
+            temp.Draggable(true);
+            //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
+            //creates the resistor object
+            Component element = new Component(temp.Name, 0, 0, 100, temp, "resistor");
+            //adds the resistor to the circuit model
             circuit.add(element);
+            //adds the picture box to form
+            this.Controls.Add(element.box);
+        }
+
+        private void connect_btn_Click(object sender, EventArgs e)
+        {
+            if (circuit.elements.Count < 2)
+            {
+                MessageBox.Show("There not enought elements to connect together");
+            }
+            else
+            {
+                foreach (Component c in circuit.elements)
+                {
+                    c.box.Draggable(false);
+                }
+            }
         }
     }
 }

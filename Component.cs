@@ -7,22 +7,24 @@ using System.Windows.Forms;
 
 namespace personal_project
 {
-    class Component : circuit_element
+    class Component 
     {
+        public string name { get; set; }
         public double voltage { get; set; }
         public double current { get; set; }
         public double resistance { get; set; }
+        public string type { get; set; }
 
-        public PictureBox image;
+        public PictureBox box;
 
-        public Component(double voltage, double current, double resistance, PictureBox image)
+        public Component(string name,  double voltage, double current, double resistance, PictureBox image, string type)
         {
+            this.name = name;
             this.voltage = voltage;
             this.current = current;
             this.resistance = resistance;
-            this.image = image;
+            this.box = image;
+            this.type = type;
         }
-
-
     }
 }

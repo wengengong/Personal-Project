@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="circuit.cs" />
-    <Compile Include="circuit_element.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="DraggableControls.cs" />
     <Compile Include="Form1.cs">

@@ -8,15 +8,15 @@ namespace personal_project
 {
     class circuit 
     {
-        private List<circuit_element> elements = new List<circuit_element>();
+        public List<Component> elements = new List<Component>();
 
-        public void add(circuit_element e)
+        public void add(Component e)
         {
             elements.Add(e);
         }
-        public circuit_element get(circuit_element e)
+        public Component get(string name)
         {
-            return elements[elements.IndexOf(e)];
+            return elements.Find(x => x.name == name);
         }
     }
 }
