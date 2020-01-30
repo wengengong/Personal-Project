@@ -71,19 +71,26 @@ namespace personal_project
         {
             PictureBox temp = (sender as PictureBox);
             Point nullpoint = new Point(-1, -1);
+
             if (start == nullpoint)
             {
+                //sets start
                 start = temp.Location;
             }
             else if (temp.Location == start)
             {
+                //remove start
                 start = nullpoint; 
             } 
             else
             {
+                //draws a line 
                 end = temp.Location;
                 Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
                 line.DrawLine(pen, start, end);
+                //clears start and end points
+                start = nullpoint;
+                end = nullpoint;
             }
         }
     }
