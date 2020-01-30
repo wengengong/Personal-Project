@@ -34,7 +34,7 @@ namespace personal_project
             //creates a picture box for the resistor
             PictureBox temp = new PictureBox();
             temp.SizeMode = PictureBoxSizeMode.StretchImage;
-            temp.ClientSize = new Size(100, 40);
+            temp.ClientSize = new Size(60, 60);
             temp.Location = new Point(50, 50);
             temp.BackColor = Color.Green;
             temp.Name = "resistor" + element_counter;
@@ -75,7 +75,7 @@ namespace personal_project
             if (start == nullpoint)
             {
                 //sets start
-                start = temp.Location;
+                start = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
             }
             else if (temp.Location == start)
             {
@@ -85,13 +85,18 @@ namespace personal_project
             else
             {
                 //draws a line 
-                end = temp.Location;
-                Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
-                line.DrawLine(pen, start, end);
+                end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
+                draw_line(start, end);
                 //clears start and end points
                 start = nullpoint;
                 end = nullpoint;
             }
+        }
+
+        public void draw_line(Point start, Point end)
+        {
+            Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
+            line.DrawLine(pen, start, end);
         }
     }
 }
