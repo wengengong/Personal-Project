@@ -18,8 +18,12 @@ namespace personal_project
         int element_counter = 0;
         Point start = new Point (-1,-1);
         Point end = new Point(-1, -1);
+        string startname = "";
+        string endname = "";
         Graphics line;
         bool connect = false;
+        List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
+
         public Form1()
         {
             InitializeComponent();
@@ -91,18 +95,24 @@ namespace personal_project
 
             if (start == nullpoint)
             {
-                //sets start
+                //sets start to center of picture box
                 start = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
+                startname = temp.Name;
             }
             else if (temp.Location == start)
             {
-                //remove start
-                start = nullpoint; 
+                //remove start point if clicked again
+                start = nullpoint;
+                startname = "";
             } 
             else
             {
-                //draws a line 
+                //will need to check if the connection already exists
+
+                //sets end and draws a line
                 end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
+                endname = temp.Name;
+                addconnection(startname, endname);
                 draw_line(start, end);
                 //clears start and end points
                 start = nullpoint;
@@ -115,6 +125,24 @@ namespace personal_project
             Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
             line.DrawLine(pen, start.X, start.Y, start.X, end.Y);
             line.DrawLine(pen, start.X, end.Y, end.X, end.Y);
+        }
+
+        public void refreshline()
+        {
+
+        }
+
+        public void addconnection(string start, string end)
+        {
+            //adds the connection to the list
+            connections.Add(new Tuple<string, string>(start, end));
+        }
+
+        public void removeconnection(string start, string end)
+        {
+            //removes connection from the list
+            Tuple<string, string> t = new Tuple<string, string>(start, end);
+            connections.Remove(t);
         }
     }
 }
