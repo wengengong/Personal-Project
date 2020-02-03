@@ -46,6 +46,7 @@ namespace personal_project
             element_counter++;
             temp.Visible = true;
             temp.Draggable(true);
+            temp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.refreshline);
             //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
             //creates the resistor object
             Component element = new Component(temp.Name, 0, 0, 100, temp, "resistor");
@@ -127,9 +128,17 @@ namespace personal_project
             line.DrawLine(pen, start.X, end.Y, end.X, end.Y);
         }
 
-        public void refreshline()
+        public void refreshline(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-
+            //clears all the lines
+            this.line.Clear(Color.White);
+            //redraws all the lines 
+            foreach (Tuple<string, string> connection in connections)
+            {
+                Component start = circuit.elements.Find(x => x.name == connection.Item1);
+                Component end = circuit.elements.Find(x => x.name == connection.Item2);
+                draw_line(start.box.Location + new Size(start.box.Width / 2, start.box.Height / 2), end.box.Location + new Size(end.box.Width / 2, end.box.Height / 2));
+            }
         }
 
         public void addconnection(string start, string end)
