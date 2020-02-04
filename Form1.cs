@@ -136,7 +136,7 @@ namespace personal_project
             line.DrawLine(pen, start.X, end.Y, end.X, end.Y);
         }
 
-        //
+        //refresh lines
         public void refreshline(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             //clears all the lines
