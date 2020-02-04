@@ -108,16 +108,21 @@ namespace personal_project
             } 
             else
             {
-                //will need to check if the connection already exists
-
                 //sets end and draws a line
                 end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
                 endname = temp.Name;
-                addconnection(startname, endname);
-                draw_line(start, end);
-                //clears start and end points
-                start = nullpoint;
-                end = nullpoint;
+                if (connections.Contains(new Tuple<string, string>(startname, endname)) || connections.Contains(new Tuple<string, string>(endname, startname)))
+                {
+                    System.Console.WriteLine("already exists");
+                } 
+                else
+                {
+                    addconnection(startname, endname);
+                    draw_line(start, end);
+                    //clears start and end points
+                    start = nullpoint;
+                    end = nullpoint;
+                }  
             }
         }
 
