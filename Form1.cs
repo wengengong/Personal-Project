@@ -20,10 +20,9 @@ namespace personal_project
         Point end = new Point(-1, -1);
         string startname = "";
         string endname = "";
+        static string target = "";
         Graphics line;
-        bool connect = false;
-        bool disconnect = false;
-        bool remove = false;
+        string state = "";
         List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
 
         public Form1()
@@ -65,7 +64,7 @@ namespace personal_project
 
         private void connect_btn_Click(object sender, EventArgs e)
         {
-            if (connect == false) 
+            if (state != "connecting") 
             {
                 if (circuit.elements.Count < 2)
                 {
@@ -73,28 +72,24 @@ namespace personal_project
                 }
                 else
                 {
-                    connect = true;
-                    disconnect = false;
-                    disconnect_btn.BackColor = Color.Gainsboro;
-                    connect_btn.BackColor = Color.LightGreen;
+                    state = "connecting";
+                    updatebuttons();
                     //make the components non draggable and adds event handler for the picturebox
                     foreach (Component c in circuit.elements)
                     {
                         c.box.Draggable(false);
                         c.box.Click += new EventHandler(connecting);
-                        c.box.Click -= new EventHandler(disconnecting);
                     }
                 }
             }
             else
             {
-                connect = false;
-                connect_btn.BackColor = Color.Gainsboro;
+                state = "";
+                updatebuttons();
                 //makes dragable and removes event handler
                 foreach (Component c in circuit.elements)
                 {
                     c.box.Draggable(true);
-                    c.box.Click -= new EventHandler(connecting);
                 }
             }
         }
@@ -148,7 +143,7 @@ namespace personal_project
 
         private void disconnect_btn_Click(object sender, EventArgs e)
         {
-            if (disconnect == false)
+            if (state != "disconnecting")
             {
                 if (connections.Count < 1)
                 {
@@ -156,26 +151,22 @@ namespace personal_project
                 }
                 else
                 {
-                    disconnect = true;
-                    connect = false;
-                    connect_btn.BackColor = Color.Gainsboro;
-                    disconnect_btn.BackColor = Color.Red;
+                    state = "disconnecting";
+                    updatebuttons();
                     foreach (Component c in circuit.elements)
                     {
                         c.box.Draggable(false);
                         c.box.Click += new EventHandler(disconnecting);
-                        c.box.Click -= new EventHandler(connecting);
                     }
                 }
             }
             else
             {
-                disconnect = false;
-                disconnect_btn.BackColor = Color.Gainsboro;
+                state = "";
+                updatebuttons();
                 foreach (Component c in circuit.elements)
                 {
                     c.box.Draggable(true);
-                    c.box.Click -= new EventHandler(disconnecting);
                 }
             }
         }
@@ -212,15 +203,82 @@ namespace personal_project
 
         private void remove_btn_Click(object sender, EventArgs e)
         {
-            if (remove == false)
+            if (state != "removing")
             {
-                remove = true;
-                remove_btn.BackColor = Color.Red;
+                if (circuit.elements.Count < 1)
+                {
+                    MessageBox.Show("there are no elements to remove");
+                }
+                else
+                {
+                    state = "removing";
+                    updatebuttons();
+                    foreach (Component c in circuit.elements)
+                    {
+                        c.box.Draggable(false);
+                        c.box.Click += new EventHandler(removing);
+                    }
+                }
             } 
             else
             {
-                remove = false;
-                remove_btn.BackColor = Color.Gainsboro;
+                state = "";
+                updatebuttons();
+                foreach (Component c in circuit.elements)
+                {
+                    c.box.Draggable(true);
+                }
+            }
+        }
+
+        public void removing(object sender, EventArgs e)
+        {
+            PictureBox temp = (sender as PictureBox);
+            target = temp.Name;
+            //remove from connections list 
+            connections.RemoveAll(containelement);
+            //remove from component list
+            circuit.elements.RemoveAll(x => x.name == target);
+            this.Controls.Remove(temp);
+        }
+
+        public static bool containelement(Tuple<string, string> t)
+        {
+            if (t.Item1 == target)
+            {
+            return true;
+            }
+            else
+            {
+            return false;
+            }
+        }
+
+        public void updatebuttons()
+        {
+            //clear all button colours
+            connect_btn.BackColor = Color.Gainsboro;
+            disconnect_btn.BackColor = Color.Gainsboro;
+            remove_btn.BackColor = Color.Gainsboro;
+            //update button colours if needed
+            if(state == "connecting")
+            {
+                connect_btn.BackColor = Color.Green;
+            }
+            if (state == "disconnecting")
+            {
+                disconnect_btn.BackColor = Color.Red;
+            }
+            if (state == "removing")
+            {
+                remove_btn.BackColor = Color.Red;
+            }
+            //remove all handlers 
+            foreach (Component c in circuit.elements)
+            {
+                c.box.Click -= new EventHandler(connecting);
+                c.box.Click -= new EventHandler(disconnecting);
+                c.box.Click -= new EventHandler(removing);
             }
         }
 
