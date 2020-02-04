@@ -23,6 +23,7 @@ namespace personal_project
         Graphics line;
         bool connect = false;
         bool disconnect = false;
+        bool remove = false;
         List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
 
         public Form1()
@@ -73,12 +74,15 @@ namespace personal_project
                 else
                 {
                     connect = true;
+                    disconnect = false;
+                    disconnect_btn.BackColor = Color.Gainsboro;
                     connect_btn.BackColor = Color.LightGreen;
                     //make the components non draggable and adds event handler for the picturebox
                     foreach (Component c in circuit.elements)
                     {
                         c.box.Draggable(false);
                         c.box.Click += new EventHandler(connecting);
+                        c.box.Click -= new EventHandler(disconnecting);
                     }
                 }
             }
@@ -136,6 +140,12 @@ namespace personal_project
             }
         }
 
+        public void addconnection(string start, string end)
+        {
+            //adds the connection to the list
+            connections.Add(new Tuple<string, string>(start, end));
+        }
+
         private void disconnect_btn_Click(object sender, EventArgs e)
         {
             if (disconnect == false)
@@ -147,11 +157,14 @@ namespace personal_project
                 else
                 {
                     disconnect = true;
+                    connect = false;
+                    connect_btn.BackColor = Color.Gainsboro;
                     disconnect_btn.BackColor = Color.Red;
                     foreach (Component c in circuit.elements)
                     {
                         c.box.Draggable(false);
                         c.box.Click += new EventHandler(disconnecting);
+                        c.box.Click -= new EventHandler(connecting);
                     }
                 }
             }
@@ -161,7 +174,7 @@ namespace personal_project
                 disconnect_btn.BackColor = Color.Gainsboro;
                 foreach (Component c in circuit.elements)
                 {
-                    c.box.Draggable(false);
+                    c.box.Draggable(true);
                     c.box.Click -= new EventHandler(disconnecting);
                 }
             }
@@ -189,6 +202,28 @@ namespace personal_project
             MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
             refreshline(sender, t);
         }
+
+        public void removeconnection(string start, string end)
+        {
+            //removes the connection from the list
+            connections.Remove(new Tuple<string, string>(start, end));
+            connections.Remove(new Tuple<string, string>(end, start));
+        }
+
+        private void remove_btn_Click(object sender, EventArgs e)
+        {
+            if (remove == false)
+            {
+                remove = true;
+                remove_btn.BackColor = Color.Red;
+            } 
+            else
+            {
+                remove = false;
+                remove_btn.BackColor = Color.Gainsboro;
+            }
+        }
+
         //draws a line connecting to lines
         public void draw_line(Point start, Point end)
         {
@@ -209,19 +244,6 @@ namespace personal_project
                 Component end = circuit.elements.Find(x => x.name == connection.Item2);
                 draw_line(start.box.Location + new Size(start.box.Width / 2, start.box.Height / 2), end.box.Location + new Size(end.box.Width / 2, end.box.Height / 2));
             }
-        }
-
-        public void addconnection(string start, string end)
-        {
-            //adds the connection to the list
-            connections.Add(new Tuple<string, string>(start, end));
-        }
-
-        public void removeconnection(string start, string end)
-        {
-
-            connections.Remove(new Tuple<string, string>(start, end));
-            connections.Remove(new Tuple<string, string>(end, start));
         }
     }
 }
