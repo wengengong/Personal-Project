@@ -22,6 +22,7 @@ namespace personal_project
         string endname = "";
         Graphics line;
         bool connect = false;
+        bool disconnect = false;
         List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
 
         public Form1()
@@ -37,19 +38,24 @@ namespace personal_project
         private void resistor_btn_Click(object sender, EventArgs e)
         {
             //creates a picture box for the resistor
+            makebox(Color.Green, "resistor", 0, 0, 0);
+        }
+
+        public void makebox (Color colour, string name, double v, double c, double r)
+        {
             PictureBox temp = new PictureBox();
             temp.SizeMode = PictureBoxSizeMode.StretchImage;
             temp.ClientSize = new Size(35, 35);
-            temp.Location = new Point(50, 50);
-            temp.BackColor = Color.Green;
-            temp.Name = "resistor" + element_counter;
+            temp.Location = new Point(100, 40);
+            temp.BackColor = colour;
+            temp.Name = name + element_counter;
             element_counter++;
             temp.Visible = true;
             temp.Draggable(true);
             temp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.refreshline);
             //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
             //creates the resistor object
-            Component element = new Component(temp.Name, 0, 0, 100, temp, "resistor");
+            Component element = new Component(temp.Name, v, c, r, temp, name);
             //adds the resistor to the circuit model
             circuit.add(element);
             //adds the picture box to form
@@ -123,11 +129,66 @@ namespace personal_project
                     draw_line(start, end);
                     //clears start and end points
                     start = nullpoint;
+                    startname = "";
                     end = nullpoint;
+                    endname = "";
                 }  
             }
         }
 
+        private void disconnect_btn_Click(object sender, EventArgs e)
+        {
+            if (disconnect == false)
+            {
+                if (connections.Count < 1)
+                {
+                    MessageBox.Show("there are no connections to disconnect");
+                }
+                else
+                {
+                    disconnect = true;
+                    disconnect_btn.BackColor = Color.Red;
+                    foreach (Component c in circuit.elements)
+                    {
+                        c.box.Draggable(false);
+                        c.box.Click += new EventHandler(disconnecting);
+                    }
+                }
+            }
+            else
+            {
+                disconnect = false;
+                disconnect_btn.BackColor = Color.Gainsboro;
+                foreach (Component c in circuit.elements)
+                {
+                    c.box.Draggable(false);
+                    c.box.Click -= new EventHandler(disconnecting);
+                }
+            }
+        }
+
+        public void disconnecting(object sender, EventArgs e)
+        {
+            PictureBox temp = (sender as PictureBox);
+            Point nullpoint = new Point(-1, -1);
+
+            if (startname == "")
+            {
+                startname = temp.Name;
+            }
+            else if (startname == temp.Name)
+            {
+                startname = "";
+            }
+            else
+            {
+                endname = temp.Name;
+                removeconnection(startname, endname); 
+            }
+            MouseButtons b = new MouseButtons();
+            MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
+            refreshline(sender, t);
+        }
         //draws a line connecting to lines
         public void draw_line(Point start, Point end)
         {
@@ -158,9 +219,9 @@ namespace personal_project
 
         public void removeconnection(string start, string end)
         {
-            //removes connection from the list
-            Tuple<string, string> t = new Tuple<string, string>(start, end);
-            connections.Remove(t);
+
+            connections.Remove(new Tuple<string, string>(start, end));
+            connections.Remove(new Tuple<string, string>(end, start));
         }
     }
 }
