@@ -111,12 +111,14 @@ namespace personal_project
                 //sets end and draws a line
                 end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
                 endname = temp.Name;
+                //checks if the 2 elements are already connected
                 if (connections.Contains(new Tuple<string, string>(startname, endname)) || connections.Contains(new Tuple<string, string>(endname, startname)))
                 {
                     System.Console.WriteLine("already exists");
                 } 
                 else
                 {
+                    //adds the connection
                     addconnection(startname, endname);
                     draw_line(start, end);
                     //clears start and end points
@@ -126,6 +128,7 @@ namespace personal_project
             }
         }
 
+        //draws a line connecting to lines
         public void draw_line(Point start, Point end)
         {
             Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
@@ -133,10 +136,11 @@ namespace personal_project
             line.DrawLine(pen, start.X, end.Y, end.X, end.Y);
         }
 
+        //
         public void refreshline(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             //clears all the lines
-            this.line.Clear(Color.White);
+            line.Clear(Color.White);
             //redraws all the lines 
             foreach (Tuple<string, string> connection in connections)
             {
