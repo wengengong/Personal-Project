@@ -38,9 +38,22 @@ namespace personal_project
         private void resistor_btn_Click(object sender, EventArgs e)
         {
             //creates a picture box for the resistor
-            makebox(Color.Green, "resistor", 0, 0, 0);
+            makebox(Color.Green, "resistor", 0, 0, 500);
         }
 
+        private void battery_btn_Click(object sender, EventArgs e)
+        {
+            makebox(Color.Yellow, "battery", 1.5, 0, 0);
+        }
+
+        private void LED_btn_Click(object sender, EventArgs e)
+        {
+            makebox(Color.LightYellow, "LED", 0.5, 0, 10);
+        }
+        private void switch_btn_Click(object sender, EventArgs e)
+        {
+            makebox(Color.Blue, "switch", 0, 0, 0);
+        }
         public void makebox (Color colour, string name, double v, double c, double r)
         {
             PictureBox temp = new PictureBox();
@@ -52,7 +65,6 @@ namespace personal_project
             element_counter++;
             temp.Visible = true;
             temp.Draggable(true);
-            temp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.refreshline);
             //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
             //creates the resistor object
             Component element = new Component(temp.Name, v, c, r, temp, name);
@@ -187,7 +199,9 @@ namespace personal_project
             else
             {
                 endname = temp.Name;
-                removeconnection(startname, endname); 
+                removeconnection(startname, endname);
+                startname = "";
+                endname = "";
             }
             MouseButtons b = new MouseButtons();
             MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
@@ -240,11 +254,15 @@ namespace personal_project
             //remove from component list
             circuit.elements.RemoveAll(x => x.name == target);
             this.Controls.Remove(temp);
+            //refresh the line
+            MouseButtons b = new MouseButtons();
+            MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
+            refreshline(sender, t);
         }
 
         public static bool containelement(Tuple<string, string> t)
         {
-            if (t.Item1 == target)
+            if (t.Item1 == target || t.Item2 == target)
             {
             return true;
             }
@@ -279,6 +297,14 @@ namespace personal_project
                 c.box.Click -= new EventHandler(connecting);
                 c.box.Click -= new EventHandler(disconnecting);
                 c.box.Click -= new EventHandler(removing);
+                c.box.MouseUp -= new MouseEventHandler(refreshline);
+            }
+            if (state == "")
+            {
+                foreach (Component c in circuit.elements)
+                {
+                    c.box.MouseUp += new MouseEventHandler(refreshline);
+                }
             }
         }
 
