@@ -16,14 +16,14 @@ namespace personal_project
         //globle veriables
         circuit circuit = new circuit();
         int element_counter = 0;
-        Point start = new Point (-1,-1);
-        Point end = new Point(-1, -1);
+        static readonly Point nullpoint = new Point (-1, -1);
+        Point start = nullpoint;
+        Point end = nullpoint;
         string startname = "";
         string endname = "";
         static string target = "";
         Graphics line;
         string state = "";
-        List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
 
         public Form1()
         {
@@ -109,7 +109,6 @@ namespace personal_project
         private void connecting(object sender, EventArgs e)
         {
             PictureBox temp = (sender as PictureBox);
-            Point nullpoint = new Point(-1, -1);
 
             if (start == nullpoint)
             {
@@ -129,14 +128,14 @@ namespace personal_project
                 end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
                 endname = temp.Name;
                 //checks if the 2 elements are already connected
-                if (connections.Contains(new Tuple<string, string>(startname, endname)) || connections.Contains(new Tuple<string, string>(endname, startname)))
+                if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)) || circuit.connections.Contains(new Tuple<string, string>(endname, startname)))
                 {
                     System.Console.WriteLine("already exists");
                 } 
                 else
                 {
                     //adds the connection
-                    addconnection(startname, endname);
+                    circuit.addconnection(startname, endname);
                     draw_line(start, end);
                     //clears start and end points
                     start = nullpoint;
@@ -147,17 +146,11 @@ namespace personal_project
             }
         }
 
-        public void addconnection(string start, string end)
-        {
-            //adds the connection to the list
-            connections.Add(new Tuple<string, string>(start, end));
-        }
-
         private void disconnect_btn_Click(object sender, EventArgs e)
         {
             if (state != "disconnecting")
             {
-                if (connections.Count < 1)
+                if (circuit.connections.Count < 1)
                 {
                     MessageBox.Show("there are no connections to disconnect");
                 }
@@ -186,7 +179,6 @@ namespace personal_project
         public void disconnecting(object sender, EventArgs e)
         {
             PictureBox temp = (sender as PictureBox);
-            Point nullpoint = new Point(-1, -1);
 
             if (startname == "")
             {
@@ -199,20 +191,13 @@ namespace personal_project
             else
             {
                 endname = temp.Name;
-                removeconnection(startname, endname);
+                circuit.removeconnection(startname, endname);
                 startname = "";
                 endname = "";
             }
             MouseButtons b = new MouseButtons();
             MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
             refreshline(sender, t);
-        }
-
-        public void removeconnection(string start, string end)
-        {
-            //removes the connection from the list
-            connections.Remove(new Tuple<string, string>(start, end));
-            connections.Remove(new Tuple<string, string>(end, start));
         }
 
         private void remove_btn_Click(object sender, EventArgs e)
@@ -250,7 +235,7 @@ namespace personal_project
             PictureBox temp = (sender as PictureBox);
             target = temp.Name;
             //remove from connections list 
-            connections.RemoveAll(containelement);
+            circuit.connections.RemoveAll(containelement);
             //remove from component list
             circuit.elements.RemoveAll(x => x.name == target);
             this.Controls.Remove(temp);
@@ -322,7 +307,7 @@ namespace personal_project
             //clears all the lines
             line.Clear(Color.White);
             //redraws all the lines 
-            foreach (Tuple<string, string> connection in connections)
+            foreach (Tuple<string, string> connection in circuit.connections)
             {
                 Component start = circuit.elements.Find(x => x.name == connection.Item1);
                 Component end = circuit.elements.Find(x => x.name == connection.Item2);
