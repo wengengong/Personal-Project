@@ -15,15 +15,14 @@ namespace personal_project
     {
         //globle veriables
         circuit circuit = new circuit();
-        int element_counter = 0;
         static readonly Point nullpoint = new Point (-1, -1);
         Point start = nullpoint;
         Point end = nullpoint;
         string startname = "";
         string endname = "";
         static string target = "";
-        Graphics line;
         string state = "";
+        Graphics line;
 
         public Form1()
         {
@@ -33,53 +32,44 @@ namespace personal_project
         private void Form1_Load(object sender, EventArgs e)
         {
             line = CreateGraphics();
-
-            //component_flowLayoutPanel.Controls.Add(connect_btn);
-            //component_flowLayoutPanel.Controls.Add(disconnect_btn);
-            //component_flowLayoutPanel.Controls.Add(remove_btn);
+            //add the buttons to the flow layout panel
             component_flowLayoutPanel.Controls.Add(resistor_btn);
             component_flowLayoutPanel.Controls.Add(battery_btn);
             component_flowLayoutPanel.Controls.Add(LED_btn);
             component_flowLayoutPanel.Controls.Add(switch_btn);
+            component_flowLayoutPanel.Controls.Add(joint_btn);
         }
 
+        //button handlers
         private void resistor_btn_Click(object sender, EventArgs e)
         {
-            //creates a picture box for the resistor
-            makebox(Color.Green, "resistor", 0, 0, 500);
+            makebox(Color.Green, "resistor", 35, 20, 0, 0, 500);
         }
 
         private void battery_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Yellow, "battery", 1.5, 0, 0);
+            makebox(Color.Yellow, "battery", 35, 35, 1.5, 0, 0);
         }
 
         private void LED_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.LightYellow, "LED", 0.5, 0, 10);
+            makebox(Color.LightYellow, "LED", 35, 35, 0.5, 0, 10);
         }
         private void switch_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Blue, "switch", 0, 0, 0);
+            makebox(Color.Blue, "switch", 35, 35, 0, 0, 0);
         }
-        public void makebox (Color colour, string name, double v, double c, double r)
+
+        private void joint_btn_Click(object sender, EventArgs e)
         {
-            PictureBox temp = new PictureBox();
-            temp.SizeMode = PictureBoxSizeMode.StretchImage;
-            temp.ClientSize = new Size(35, 35);
-            temp.Location = new Point(100, 40);
-            temp.BackColor = colour;
-            temp.Name = name + element_counter;
-            element_counter++;
-            temp.Visible = true;
-            temp.Draggable(true);
-            //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
-            //creates the resistor object
-            Component element = new Component(temp.Name, v, c, r, temp, name);
-            //adds the resistor to the circuit model
-            circuit.add(element);
-            //adds the picture box to form
-            this.Controls.Add(element.box);
+            makebox(Color.Black, "joint", 8, 8, 0, 0, 0);
+        }
+
+        public void makebox (Color colour, string name,int x, int y, double v, double c, double r)
+        {
+            //creates component and picturebox in the circuit
+            //then returns the picturebox and adds the picture box to form
+            this.Controls.Add(circuit.addelement(colour, name, x, y, v, c, r));
         }
 
         private void connect_btn_Click(object sender, EventArgs e)
@@ -322,6 +312,5 @@ namespace personal_project
                 draw_line(start.box.Location + new Size(start.box.Width / 2, start.box.Height / 2), end.box.Location + new Size(end.box.Width / 2, end.box.Height / 2));
             }
         }
-
     }
 }

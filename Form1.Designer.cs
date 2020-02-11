@@ -36,11 +36,12 @@
             this.remove_btn = new System.Windows.Forms.Button();
             this.switch_btn = new System.Windows.Forms.Button();
             this.component_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.joint_btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // resistor_btn
             // 
-            this.resistor_btn.Location = new System.Drawing.Point(238, 121);
+            this.resistor_btn.Location = new System.Drawing.Point(150, 131);
             this.resistor_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.resistor_btn.Name = "resistor_btn";
             this.resistor_btn.Size = new System.Drawing.Size(84, 23);
@@ -74,7 +75,7 @@
             // 
             // battery_btn
             // 
-            this.battery_btn.Location = new System.Drawing.Point(238, 150);
+            this.battery_btn.Location = new System.Drawing.Point(150, 100);
             this.battery_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.battery_btn.Name = "battery_btn";
             this.battery_btn.Size = new System.Drawing.Size(84, 27);
@@ -85,7 +86,7 @@
             // 
             // LED_btn
             // 
-            this.LED_btn.Location = new System.Drawing.Point(238, 183);
+            this.LED_btn.Location = new System.Drawing.Point(150, 158);
             this.LED_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.LED_btn.Name = "LED_btn";
             this.LED_btn.Size = new System.Drawing.Size(84, 23);
@@ -107,7 +108,7 @@
             // 
             // switch_btn
             // 
-            this.switch_btn.Location = new System.Drawing.Point(238, 211);
+            this.switch_btn.Location = new System.Drawing.Point(150, 186);
             this.switch_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.switch_btn.Name = "switch_btn";
             this.switch_btn.Size = new System.Drawing.Size(84, 23);
@@ -124,12 +125,23 @@
             this.component_flowLayoutPanel.Size = new System.Drawing.Size(119, 342);
             this.component_flowLayoutPanel.TabIndex = 9;
             // 
+            // joint_btn
+            // 
+            this.joint_btn.Location = new System.Drawing.Point(150, 214);
+            this.joint_btn.Name = "joint_btn";
+            this.joint_btn.Size = new System.Drawing.Size(84, 23);
+            this.joint_btn.TabIndex = 10;
+            this.joint_btn.Text = "joint";
+            this.joint_btn.UseVisualStyleBackColor = true;
+            this.joint_btn.Click += new System.EventHandler(this.joint_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.joint_btn);
             this.Controls.Add(this.component_flowLayoutPanel);
             this.Controls.Add(this.switch_btn);
             this.Controls.Add(this.remove_btn);
@@ -156,6 +168,7 @@
         private System.Windows.Forms.Button remove_btn;
         private System.Windows.Forms.Button switch_btn;
         private System.Windows.Forms.FlowLayoutPanel component_flowLayoutPanel;
+        private System.Windows.Forms.Button joint_btn;
     }
 }
 

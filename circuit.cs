@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DraggableControls;
 
 namespace personal_project
 {
@@ -10,10 +13,23 @@ namespace personal_project
     {
         public List<Component> elements = new List<Component>();
         public List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
+        int element_counter = 0;
 
-        public void add(Component e)
+        public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r)
         {
-            elements.Add(e);
+            PictureBox temp = new PictureBox();
+            temp.SizeMode = PictureBoxSizeMode.StretchImage;
+            temp.ClientSize = new Size(x, y);
+            temp.Location = new Point(100, 40);
+            temp.BackColor = colour;
+            temp.Name = name + element_counter;
+            element_counter++;
+            temp.Visible = true;
+            temp.Draggable(true);
+            //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
+            //creates the resistor object
+            Component element = new Component(temp.Name, v, c, r, temp, name);
+            return temp;
         }
         public Component get(string name)
         {
