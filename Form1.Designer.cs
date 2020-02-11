@@ -35,14 +35,15 @@
             this.LED_btn = new System.Windows.Forms.Button();
             this.remove_btn = new System.Windows.Forms.Button();
             this.switch_btn = new System.Windows.Forms.Button();
+            this.component_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // resistor_btn
             // 
-            this.resistor_btn.Location = new System.Drawing.Point(9, 80);
-            this.resistor_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.resistor_btn.Location = new System.Drawing.Point(238, 121);
+            this.resistor_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.resistor_btn.Name = "resistor_btn";
-            this.resistor_btn.Size = new System.Drawing.Size(63, 19);
+            this.resistor_btn.Size = new System.Drawing.Size(84, 23);
             this.resistor_btn.TabIndex = 0;
             this.resistor_btn.Text = "resistor";
             this.resistor_btn.UseVisualStyleBackColor = true;
@@ -51,10 +52,10 @@
             // connect_btn
             // 
             this.connect_btn.BackColor = System.Drawing.Color.Gainsboro;
-            this.connect_btn.Location = new System.Drawing.Point(10, 11);
-            this.connect_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.connect_btn.Location = new System.Drawing.Point(12, 11);
+            this.connect_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.connect_btn.Name = "connect_btn";
-            this.connect_btn.Size = new System.Drawing.Size(62, 19);
+            this.connect_btn.Size = new System.Drawing.Size(83, 23);
             this.connect_btn.TabIndex = 1;
             this.connect_btn.Text = "connect";
             this.connect_btn.UseVisualStyleBackColor = false;
@@ -62,10 +63,10 @@
             // 
             // disconnect_btn
             // 
-            this.disconnect_btn.Location = new System.Drawing.Point(9, 34);
-            this.disconnect_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.disconnect_btn.Location = new System.Drawing.Point(11, 39);
+            this.disconnect_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.disconnect_btn.Name = "disconnect_btn";
-            this.disconnect_btn.Size = new System.Drawing.Size(63, 19);
+            this.disconnect_btn.Size = new System.Drawing.Size(84, 23);
             this.disconnect_btn.TabIndex = 2;
             this.disconnect_btn.Text = "disconnect";
             this.disconnect_btn.UseVisualStyleBackColor = true;
@@ -73,10 +74,10 @@
             // 
             // battery_btn
             // 
-            this.battery_btn.Location = new System.Drawing.Point(9, 103);
-            this.battery_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.battery_btn.Location = new System.Drawing.Point(238, 150);
+            this.battery_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.battery_btn.Name = "battery_btn";
-            this.battery_btn.Size = new System.Drawing.Size(63, 22);
+            this.battery_btn.Size = new System.Drawing.Size(84, 27);
             this.battery_btn.TabIndex = 3;
             this.battery_btn.Text = "battery";
             this.battery_btn.UseVisualStyleBackColor = true;
@@ -84,10 +85,10 @@
             // 
             // LED_btn
             // 
-            this.LED_btn.Location = new System.Drawing.Point(9, 130);
-            this.LED_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LED_btn.Location = new System.Drawing.Point(238, 183);
+            this.LED_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.LED_btn.Name = "LED_btn";
-            this.LED_btn.Size = new System.Drawing.Size(63, 19);
+            this.LED_btn.Size = new System.Drawing.Size(84, 23);
             this.LED_btn.TabIndex = 4;
             this.LED_btn.Text = "LED";
             this.LED_btn.UseVisualStyleBackColor = true;
@@ -95,10 +96,10 @@
             // 
             // remove_btn
             // 
-            this.remove_btn.Location = new System.Drawing.Point(9, 58);
-            this.remove_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.remove_btn.Location = new System.Drawing.Point(11, 68);
+            this.remove_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.remove_btn.Name = "remove_btn";
-            this.remove_btn.Size = new System.Drawing.Size(63, 19);
+            this.remove_btn.Size = new System.Drawing.Size(84, 23);
             this.remove_btn.TabIndex = 5;
             this.remove_btn.Text = "remove";
             this.remove_btn.UseVisualStyleBackColor = true;
@@ -106,21 +107,30 @@
             // 
             // switch_btn
             // 
-            this.switch_btn.Location = new System.Drawing.Point(9, 153);
-            this.switch_btn.Margin = new System.Windows.Forms.Padding(2);
+            this.switch_btn.Location = new System.Drawing.Point(238, 211);
+            this.switch_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.switch_btn.Name = "switch_btn";
-            this.switch_btn.Size = new System.Drawing.Size(63, 19);
+            this.switch_btn.Size = new System.Drawing.Size(84, 23);
             this.switch_btn.TabIndex = 7;
             this.switch_btn.Text = "switch";
             this.switch_btn.UseVisualStyleBackColor = true;
             this.switch_btn.Click += new System.EventHandler(this.switch_btn_Click);
             // 
+            // component_flowLayoutPanel
+            // 
+            this.component_flowLayoutPanel.AutoScroll = true;
+            this.component_flowLayoutPanel.Location = new System.Drawing.Point(7, 96);
+            this.component_flowLayoutPanel.Name = "component_flowLayoutPanel";
+            this.component_flowLayoutPanel.Size = new System.Drawing.Size(119, 342);
+            this.component_flowLayoutPanel.TabIndex = 9;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.component_flowLayoutPanel);
             this.Controls.Add(this.switch_btn);
             this.Controls.Add(this.remove_btn);
             this.Controls.Add(this.LED_btn);
@@ -128,7 +138,7 @@
             this.Controls.Add(this.disconnect_btn);
             this.Controls.Add(this.connect_btn);
             this.Controls.Add(this.resistor_btn);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -145,6 +155,7 @@
         private System.Windows.Forms.Button LED_btn;
         private System.Windows.Forms.Button remove_btn;
         private System.Windows.Forms.Button switch_btn;
+        private System.Windows.Forms.FlowLayoutPanel component_flowLayoutPanel;
     }
 }
 

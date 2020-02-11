@@ -33,6 +33,14 @@ namespace personal_project
         private void Form1_Load(object sender, EventArgs e)
         {
             line = CreateGraphics();
+
+            //component_flowLayoutPanel.Controls.Add(connect_btn);
+            //component_flowLayoutPanel.Controls.Add(disconnect_btn);
+            //component_flowLayoutPanel.Controls.Add(remove_btn);
+            component_flowLayoutPanel.Controls.Add(resistor_btn);
+            component_flowLayoutPanel.Controls.Add(battery_btn);
+            component_flowLayoutPanel.Controls.Add(LED_btn);
+            component_flowLayoutPanel.Controls.Add(switch_btn);
         }
 
         private void resistor_btn_Click(object sender, EventArgs e)
@@ -314,5 +322,6 @@ namespace personal_project
                 draw_line(start.box.Location + new Size(start.box.Width / 2, start.box.Height / 2), end.box.Location + new Size(end.box.Width / 2, end.box.Height / 2));
             }
         }
+
     }
 }
