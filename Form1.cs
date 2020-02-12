@@ -43,25 +43,35 @@ namespace personal_project
         //button handlers
         private void resistor_btn_Click(object sender, EventArgs e)
         {
+            state = "";
+            updatebuttons();
             makebox(Color.Green, "resistor", 35, 20, 0, 0, 500, 2);
         }
 
         private void battery_btn_Click(object sender, EventArgs e)
         {
+            state = "";
+            updatebuttons();
             makebox(Color.Yellow, "battery", 35, 35, 1.5, 0, 0, 2);
         }
 
         private void LED_btn_Click(object sender, EventArgs e)
         {
+            state = "";
+            updatebuttons();
             makebox(Color.LightYellow, "LED", 35, 35, 0.5, 0, 10 , 2);
         }
         private void switch_btn_Click(object sender, EventArgs e)
         {
+            state = "";
+            updatebuttons();
             makebox(Color.Blue, "switch", 35, 35, 0, 0, 0, 2);
         }
 
         private void joint_btn_Click(object sender, EventArgs e)
         {
+            state = "";
+            updatebuttons();
             makebox(Color.Black, "joint", 8, 8, 0, 0, 0, double.PositiveInfinity);
         }
 
@@ -309,6 +319,12 @@ namespace personal_project
                     c.box.MouseUp += new MouseEventHandler(refreshline);
                 }
             }
+        }
+
+        private void simulate_btn_Click(object sender, EventArgs e)
+        {
+            state = "";
+            updatebuttons(); 
         }
 
         //draws a line connecting to lines

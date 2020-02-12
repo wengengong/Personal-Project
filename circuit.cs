@@ -62,5 +62,27 @@ namespace personal_project
             }
             return numaccour;
         }
+
+        public int[ , ] genadjacency()
+        {
+            //make a n by n array as an adjacency matrix for the circuit components
+            int[ , ] adjacency_matrix = new int[elements.Count, elements.Count];
+            for (int a = 0; a < elements.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    //fills with 0's to start
+                    adjacency_matrix[a, b] = 0;
+                }
+            }
+            //turns each connection into a 1
+            foreach (Tuple<string, string> c in connections)
+            {
+                adjacency_matrix[elements.IndexOf(get(c.Item1)), elements.IndexOf(get(c.Item2))] = 1;
+                adjacency_matrix[elements.IndexOf(get(c.Item2)), elements.IndexOf(get(c.Item1))] = 1;
+            }
+
+            return adjacency_matrix;
+        }
     }
 }
