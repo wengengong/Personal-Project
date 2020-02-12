@@ -14,6 +14,11 @@ namespace personal_project
         public List<Component> elements = new List<Component>();
         public List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
         int element_counter = 0;
+        static readonly Point nullpoint = new Point(-1, -1);
+        Point start = nullpoint;
+        Point end = nullpoint;
+        string startname = "";
+        string endname = "";
 
         public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r)
         {

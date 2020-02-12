@@ -89,6 +89,7 @@ namespace personal_project
                     {
                         c.box.Draggable(false);
                         c.box.Click += new EventHandler(connecting);
+                        
                     }
                 }
             }
