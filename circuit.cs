@@ -14,13 +14,8 @@ namespace personal_project
         public List<Component> elements = new List<Component>();
         public List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
         int element_counter = 0;
-        static readonly Point nullpoint = new Point(-1, -1);
-        Point start = nullpoint;
-        Point end = nullpoint;
-        string startname = "";
-        string endname = "";
 
-        public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r)
+        public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r, double n)
         {
             PictureBox temp = new PictureBox();
             temp.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -31,9 +26,10 @@ namespace personal_project
             element_counter++;
             temp.Visible = true;
             temp.Draggable(true);
-            //test.Image = Image.FromFile("images\\resistor.jpg");    add images later
+            //test.Image = Image.FromFile("images\\resistor.jpg");    add images later, replace colour with image file
             //creates the resistor object
-            Component element = new Component(temp.Name, v, c, r, temp, name);
+            Component element = new Component(temp.Name, v, c, r, n, temp, name);
+            elements.Add(element);
             return temp;
         }
         public Component get(string name)
@@ -52,6 +48,19 @@ namespace personal_project
             //removes the connection from the list
             connections.Remove(new Tuple<string, string>(start, end));
             connections.Remove(new Tuple<string, string>(end, start));
+        }
+
+        public double numaccour(string name)
+        {
+            double numaccour = 0;
+            foreach (Tuple<string, string> c in connections)
+            {
+                if (c.Item1 == name || c.Item2 == name)
+                {
+                    numaccour++;
+                }
+            }
+            return numaccour;
         }
     }
 }

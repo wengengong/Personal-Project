@@ -43,33 +43,33 @@ namespace personal_project
         //button handlers
         private void resistor_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Green, "resistor", 35, 20, 0, 0, 500);
+            makebox(Color.Green, "resistor", 35, 20, 0, 0, 500, 2);
         }
 
         private void battery_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Yellow, "battery", 35, 35, 1.5, 0, 0);
+            makebox(Color.Yellow, "battery", 35, 35, 1.5, 0, 0, 2);
         }
 
         private void LED_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.LightYellow, "LED", 35, 35, 0.5, 0, 10);
+            makebox(Color.LightYellow, "LED", 35, 35, 0.5, 0, 10 , 2);
         }
         private void switch_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Blue, "switch", 35, 35, 0, 0, 0);
+            makebox(Color.Blue, "switch", 35, 35, 0, 0, 0, 2);
         }
 
         private void joint_btn_Click(object sender, EventArgs e)
         {
-            makebox(Color.Black, "joint", 8, 8, 0, 0, 0);
+            makebox(Color.Black, "joint", 8, 8, 0, 0, 0, double.PositiveInfinity);
         }
 
-        public void makebox (Color colour, string name,int x, int y, double v, double c, double r)
+        public void makebox (Color colour, string name,int x, int y, double v, double c, double r, double n)
         {
             //creates component and picturebox in the circuit
             //then returns the picturebox and adds the picture box to form
-            this.Controls.Add(circuit.addelement(colour, name, x, y, v, c, r));
+            this.Controls.Add(circuit.addelement(colour, name, x, y, v, c, r, n));
         }
 
         private void connect_btn_Click(object sender, EventArgs e)
@@ -114,6 +114,13 @@ namespace personal_project
                 //sets start to center of picture box
                 start = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
                 startname = temp.Name;
+                if (circuit.get(startname).numconnections <= circuit.numaccour(startname))
+                {
+                    MessageBox.Show("you can't connect from this component,\nit already has the maximum number of connectiongs it can have");
+                    start = nullpoint;
+                    startname = "";
+                    return;
+                }
             }
             else if (temp.Location == start)
             {
@@ -126,14 +133,26 @@ namespace personal_project
                 //sets end and draws a line
                 end = temp.Location + new Size(temp.Width / 2, temp.Height / 2);
                 endname = temp.Name;
+                if (circuit.get(endname).numconnections <= circuit.numaccour(endname))
+                {
+                    MessageBox.Show("you can't connect to this component,\nit already has the maximum number of connectiongs it can have");
+                    end = nullpoint;
+                    endname = "";
+                    return;
+                }
                 //checks if the 2 elements are already connected
-                if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)) || circuit.connections.Contains(new Tuple<string, string>(endname, startname)))
+                if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)))
                 {
                     System.Console.WriteLine("already exists");
+                    start = nullpoint;
+                    startname = "";
+                    end = nullpoint;
+                    endname = "";
+                    return;
                 } 
                 else
                 {
-                    //adds the connection
+                    //adds the connection and draws the line
                     circuit.addconnection(startname, endname);
                     draw_line(start, end);
                     //clears start and end points

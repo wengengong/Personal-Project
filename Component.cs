@@ -13,17 +13,21 @@ namespace personal_project
         public double voltage { get; set; }
         public double current { get; set; }
         public double resistance { get; set; }
+
+        public double numconnections { get; set; }
+
         public string type { get; set; }
 
         public PictureBox box;
 
-        public Component(string name,  double voltage, double current, double resistance, PictureBox image, string type)
+        public Component(string name,  double voltage, double current, double resistance,double num, PictureBox image, string type)
         {
             this.name = name;
             this.voltage = voltage;
             this.current = current;
             this.resistance = resistance;
-            this.box = image;
+            numconnections = num;
+            box = image;
             this.type = type;
         }
     }
