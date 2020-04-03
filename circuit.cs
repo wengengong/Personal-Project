@@ -94,5 +94,85 @@ namespace personal_project
         }
 
 
+        public int[,] gentree(int[,] ajacent)
+        {
+            int[] treenodes = new int[elements.Count];
+            int[,] treeconnections = new int[elements.Count, elements.Count];
+            //start tree nodes
+            for (int i = 0; i < elements.Count; i++)
+            {
+                treenodes[i] = 0;
+            }
+            treenodes[0] = 1;
+            //start tree connections
+            for (int a = 0; a < elements.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    treeconnections[a, b] = 0;
+                }
+            }
+            //find a tree (assumes the graph is all connected)
+            for (int a = 0; a < elements.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    if (ajacent[a,b] == 1 && treenodes[a] == 1 && treenodes[b] == 0)
+                    {
+                        treeconnections[a,b] = 1;
+                        treeconnections[b,a] = 1;
+                        treenodes[b] = 1;
+                    }
+                    if(ajacent[a, b] == 1 && treenodes[a] == 0 && treenodes[b] == 1)
+                    {
+                        treeconnections[a, b] = 1;
+                        treeconnections[b, a] = 1;
+                        treenodes[b] = 1;
+                    }
+                }
+            }
+
+            return treeconnections;
+        }
+
+        public int[,] findloops(int[,] adj, int[,] tree)
+        {
+            //find all the unused edges
+            List<Tuple<string, string>> unused = new List<Tuple<string, string>>();
+            for (int a = 0; a < elements.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    string startname = elements[a].name;
+                    string endname = elements[b].name;
+                    if (adj[a, b] == 1 && tree[a, b] == 0 && connections.Contains(new Tuple<string, string>(startname, endname)))
+                    {
+                        unused.Add(new Tuple<string, string>(startname, endname));
+                    }
+                }
+            }
+            foreach (Tuple<string, string> t in unused)
+            {
+                Console.WriteLine(t.Item1 + "," + t.Item2);
+            }
+
+            //set up array to store loops
+            int[,] loops = new int[unused.Count , elements.Count];
+            for (int a = 0; a < unused.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    loops[a, b] = 0;
+                }
+            }
+
+            //find loops 
+            for (int i = 0; i < unused.Count; i++)
+            {
+
+            }
+
+            return loops;
+        }
     }
 }

@@ -151,7 +151,7 @@ namespace personal_project
                     return;
                 }
                 //checks if the 2 elements are already connected
-                if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)))
+                if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)) || circuit.connections.Contains(new Tuple<string, string>(endname, startname)))
                 {
                     System.Console.WriteLine("already exists");
                     start = nullpoint;
@@ -324,7 +324,32 @@ namespace personal_project
         private void simulate_btn_Click(object sender, EventArgs e)
         {
             state = "";
-            updatebuttons(); 
+            updatebuttons();
+
+            int[,] adj = circuit.genadjacency();
+            for (int a = 0; a < circuit.elements.Count; a++)
+            {
+                for (int b = 0; b < circuit.elements.Count; b++)
+                {
+                    Console.Write(adj[a,b] + " ");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+
+            int[,] tree = circuit.gentree(adj);
+            for (int a = 0; a < circuit.elements.Count; a++)
+            {
+                for (int b = 0; b < circuit.elements.Count; b++)
+                {
+                    Console.Write(tree[a, b] + " ");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+
+            int[,] temp = circuit.findloops(adj, tree);
+
         }
 
         //draws a line connecting to lines
