@@ -138,7 +138,7 @@ namespace personal_project
         public int[,] findloops(int[,] adj, int[,] tree)
         {
             //find all the unused edges
-            List<Tuple<string, string>> unused = new List<Tuple<string, string>>();
+            List< Tuple<int, int>> unused = new List<Tuple<int, int>>();
             for (int a = 0; a < elements.Count; a++)
             {
                 for (int b = 0; b < elements.Count; b++)
@@ -147,14 +147,15 @@ namespace personal_project
                     string endname = elements[b].name;
                     if (adj[a, b] == 1 && tree[a, b] == 0 && connections.Contains(new Tuple<string, string>(startname, endname)))
                     {
-                        unused.Add(new Tuple<string, string>(startname, endname));
+                        unused.Add(new Tuple<int, int>(a, b));
                     }
                 }
             }
-            foreach (Tuple<string, string> t in unused)
-            {
-                Console.WriteLine(t.Item1 + "," + t.Item2);
-            }
+            //check edges
+            //foreach (Tuple<int, int> t in unused)
+            //{
+            //    Console.WriteLine(t.Item1 + "," + t.Item2);
+            //}
 
             //set up array to store loops
             int[,] loops = new int[unused.Count , elements.Count];
@@ -166,12 +167,85 @@ namespace personal_project
                 }
             }
 
-            //find loops 
-            for (int i = 0; i < unused.Count; i++)
+            //find loops
+            int counter = 0;
+            int[,] copy = new int[elements.Count, elements.Count];
+            foreach (Tuple<int, int> unusededge in unused)
             {
+                //copy = tree;
+                //add one of the unused edges to a copy of the tree
+                for (int a = 0; a < elements.Count; a++)
+                {
+                    for (int b = 0; b < elements.Count; b++)
+                    {
+                        copy[a, b] = tree[a, b];
+                    }
+                }
+                copy[unusededge.Item1, unusededge.Item2] = 1;
+                copy[unusededge.Item2, unusededge.Item1] = 1;
 
+                for (int a = 0; a < elements.Count; a++)
+                {
+                    for (int b = 0; b < elements.Count; b++)
+                    {
+                        Console.Write(copy[a,b] + " ");
+                    }
+                    Console.Write("\n");
+                }
+                Console.Write("\n");
+
+                //prune the graph
+                bool removed = true;
+                while (removed == true)
+                {
+                    removed = false;
+                    //for each node in the graph
+                    for (int i = 0; i < elements.Count; i++)
+                    {
+                        int connections = 0;
+                        for (int a = 0; a < elements.Count; a++)
+                        {
+                            connections += copy[i, a];
+                        }
+                        //if it only has one connection remove it
+                        if (connections == 1)
+                        {
+                            for (int a = 0; a < elements.Count; a++)
+                            {
+                                copy[i, a] = 0;
+                                copy[a, i] = 0;
+                            }
+                            removed = true;
+                        }
+                    }
+                }
+
+                //add the loop to the array
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    int connections = 0;
+                    for (int a = 0; a < elements.Count; a++)
+                    {
+                        connections += copy[i, a];
+                    }
+                    if (connections > 1)
+                    {
+                        loops[counter,i] = 1;
+                    }
+                }
+                counter++;
+            }
+            //check loops
+            for (int a = 0; a < unused.Count; a++)
+            {
+                for (int b = 0; b < elements.Count; b++)
+                {
+                    Console.Write(loops[a,b] + " ");
+                }
+                Console.Write("\n");
             }
 
+            counter = 0;
             return loops;
         }
     }
