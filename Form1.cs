@@ -132,7 +132,7 @@ namespace personal_project
                     return;
                 }
             }
-            else if (temp.Location == start)
+            else if (temp.Location + new Size(temp.Width / 2, temp.Height / 2) == start)
             {
                 //remove start point if clicked again
                 start = nullpoint;
@@ -153,7 +153,7 @@ namespace personal_project
                 //checks if the 2 elements are already connected
                 if (circuit.connections.Contains(new Tuple<string, string>(startname, endname)) || circuit.connections.Contains(new Tuple<string, string>(endname, startname)))
                 {
-                    System.Console.WriteLine("already exists");
+                    System.Console.WriteLine("connection already exists");
                     start = nullpoint;
                     startname = "";
                     end = nullpoint;
@@ -326,7 +326,9 @@ namespace personal_project
             state = "";
             updatebuttons();
 
+            //get adjacency matrix
             int[,] adj = circuit.genadjacency();
+            //check matrix
             for (int a = 0; a < circuit.elements.Count; a++)
             {
                 for (int b = 0; b < circuit.elements.Count; b++)
@@ -337,7 +339,9 @@ namespace personal_project
             }
             Console.Write("\n");
 
+            //generate a tree
             int[,] tree = circuit.gentree(adj);
+            //check tree
             for (int a = 0; a < circuit.elements.Count; a++)
             {
                 for (int b = 0; b < circuit.elements.Count; b++)
@@ -348,7 +352,43 @@ namespace personal_project
             }
             Console.Write("\n");
 
-            int[,] temp = circuit.findloops(adj, tree);
+            //find loops/cycles in graph
+            int[,] loops = circuit.findloops(adj, tree);
+            //check loops
+            for (int a = 0; a < (loops.Length / circuit.elements.Count) ; a++)
+            {
+                for (int b = 0; b < circuit.elements.Count; b++)
+                {
+                    Console.Write(loops[a, b] + " ");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+
+            //orient loops/cycles
+            int[,] orientloops = circuit.orientloops(loops);
+            //check orientation
+            for (int a = 0; a < (orientloops.Length / circuit.elements.Count); a++)
+            {
+                for (int b = 0; b < circuit.elements.Count; b++)
+                {
+                    Console.Write(orientloops[a, b] + " ");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+
+            //generate circuit equations
+
+            //check equations
+
+
+            //solve equations
+
+            //check solutions
+
+
+            //update circuit UI
 
         }
 

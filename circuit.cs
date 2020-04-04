@@ -151,11 +151,6 @@ namespace personal_project
                     }
                 }
             }
-            //check edges
-            //foreach (Tuple<int, int> t in unused)
-            //{
-            //    Console.WriteLine(t.Item1 + "," + t.Item2);
-            //}
 
             //set up array to store loops
             int[,] loops = new int[unused.Count , elements.Count];
@@ -184,16 +179,6 @@ namespace personal_project
                 copy[unusededge.Item1, unusededge.Item2] = 1;
                 copy[unusededge.Item2, unusededge.Item1] = 1;
 
-                for (int a = 0; a < elements.Count; a++)
-                {
-                    for (int b = 0; b < elements.Count; b++)
-                    {
-                        Console.Write(copy[a,b] + " ");
-                    }
-                    Console.Write("\n");
-                }
-                Console.Write("\n");
-
                 //prune the graph
                 bool removed = true;
                 while (removed == true)
@@ -202,6 +187,7 @@ namespace personal_project
                     //for each node in the graph
                     for (int i = 0; i < elements.Count; i++)
                     {
+                        //counts the number of connections it has
                         int connections = 0;
                         for (int a = 0; a < elements.Count; a++)
                         {
@@ -217,6 +203,7 @@ namespace personal_project
                             }
                             removed = true;
                         }
+                        //repeat until only the loop remains
                     }
                 }
 
@@ -235,18 +222,70 @@ namespace personal_project
                 }
                 counter++;
             }
-            //check loops
-            for (int a = 0; a < unused.Count; a++)
-            {
-                for (int b = 0; b < elements.Count; b++)
-                {
-                    Console.Write(loops[a,b] + " ");
-                }
-                Console.Write("\n");
-            }
 
             counter = 0;
             return loops;
+        }
+
+        public int[,] orientloops(int[,] loops)
+        {
+            int numloops = loops.Length / elements.Count;
+            //set up array to store oriented loops
+            int[,] orientedloops = new int[numloops, elements.Count];
+            for(int a = 0; a < numloops; a++)
+            {
+                for(int b = 0; b < elements.Count; b++)
+                {
+                    orientedloops[a, b] = 0;
+                }
+            }
+            //for each loop
+            
+            for(int i = 0; i < numloops; i++)
+            {
+                int counter = 1;
+                int current = 0;
+                int[] loopcopy = new int[elements.Count];
+                for(int a = 0; a < elements.Count; a++)
+                {
+                    loopcopy[a] = loops[i, a];
+                }
+
+                //select the first element
+                for(int a = 0; a < elements.Count; a++)
+                {
+                    if(loops[i,a] == 1)
+                    {
+                        orientedloops[i, a] = counter;
+                        current = a;
+                        loopcopy[a] = 0;
+                        counter++;
+                        break;
+                    }
+                }
+
+                /*while there are still edges in the loop, remove them one by one
+                  and giving them an orderfrom 1 to n until there are no edges left*/
+                bool edgesleft = true;
+                while (edgesleft == true)
+                {
+                    edgesleft = false;
+                    for(int a = 0; a < elements.Count; a++)
+                    {
+                        //if the element has not been used and there is a connection from the current element to it then it is removed 
+                        if (loopcopy[a] == 1 && (connections.Contains(new Tuple<string, string>(elements[a].name, elements[current].name)) || connections.Contains(new Tuple<string, string>(elements[current].name, elements[a].name))))
+                        {
+                            orientedloops[i,a] = counter;
+                            current = a;
+                            loopcopy[a] = 0;
+                            counter++;
+                            edgesleft = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            return orientedloops;
         }
     }
 }
