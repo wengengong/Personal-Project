@@ -378,14 +378,9 @@ namespace personal_project
             }
             Console.Write("\n");
 
-            //generate circuit equations
+            //generate circuit equations and solve
 
             //check equations
-
-
-            //solve equations
-
-            //check solutions
 
 
             //update circuit UI

@@ -287,5 +287,14 @@ namespace personal_project
             }
             return orientedloops;
         }
+
+        public int[] solve(int[,] directedloops)
+        {
+            int numloops = directedloops.Length / elements.Count;
+
+            int[] loopcurrents = new int[numloops];
+
+            return loopcurrents;
+        }
     }
 }
