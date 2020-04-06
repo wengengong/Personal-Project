@@ -59,7 +59,7 @@ namespace personal_project
         {
             state = "";
             updatebuttons();
-            makebox(Color.LightYellow, "LED", 35, 35, 0.5, 0, 10 , 2);
+            makebox(Color.LightYellow, "LED", 35, 35, -0.5, 0, 10 , 2);
         }
         private void switch_btn_Click(object sender, EventArgs e)
         {
@@ -379,10 +379,13 @@ namespace personal_project
             Console.Write("\n");
 
             //generate circuit equations and solve
-
+            double[] current = circuit.solve(orientloops);
             //check equations
-
-
+            foreach (double d in current)
+            {
+                Console.Write(d + " ");
+            }
+            Console.Write("\n");
             //update circuit UI
 
         }

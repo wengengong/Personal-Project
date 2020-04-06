@@ -17,11 +17,6 @@ namespace personal_project
         public List<Component> elements = new List<Component>();
         public List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
         int element_counter = 0;
-        Matrix<double> a = DenseMatrix.OfArray(new double[,]
-        {
-            {1, 2},
-            {3, 4}
-        });
 
         public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r, double n)
         {
@@ -288,12 +283,108 @@ namespace personal_project
             return orientedloops;
         }
 
-        public int[] solve(int[,] directedloops)
+        public double[] solve(int[,] directedloops)
         {
             int numloops = directedloops.Length / elements.Count;
+            double[,] resistances = new double[numloops, numloops];
+            for (int a = 0; a < numloops; a++)
+            {
+                for (int b = 0; b < numloops; b++)
+                {
+                    resistances[a, b] = 0;
+                }
+            }
+            //for each loop, sum the resistance of that loop and all adjacent loops
+            for (int a = 0; a < numloops; a++)
+            {
+                for(int b = 0; b < numloops; b++)
+                {
+                    if(b == a)
+                    {
+                        //sum resistances of all elemets in the loop
+                        double sum = 0;
+                        for(int i = 0; i < elements.Count; i++)
+                        {
+                            if(directedloops[a,i] > 0)
+                            {
+                                sum += elements[i].resistance;
+                            }
+                        }
+                        resistances[a, b] = sum;
+                    }
+                    else
+                    {
+                        //checks if this loop is adjacent
+                        bool adj = false;
+                        List<int> shared = new List<int>();
+                        for(int i = 0; i < elements.Count; i++)
+                        {
+                            if (directedloops[a,i] > 0 && directedloops[b,i] > 0)
+                            {
+                                shared.Add(i);
+                                adj = true;
+                            }
+                        }
+                        //if the loop is adjacent sum shared elements
+                        if (adj == true && shared.Count > 1)
+                        {
+                            double sum = 0;
+                            foreach (int i in shared)
+                            {
+                                sum += elements[i].resistance;
+                            }
+                            //work out if the loop diredtions are the same or opposed
+                            double loop1 = directedloops[a, shared[0]];
+                            double loop2 = directedloops[b, shared[0]];
+                            for (int i = 1; i < shared.Count; i ++)
+                            {
+                                loop1 -= directedloops[a, shared[i]];
+                                loop2 -= directedloops[b, shared[i]];
+                            }
+                            if(loop1 < 0 && loop2 < 0)
+                            {
+                                //if the loops are going in the same direction add the resistance
+                                resistances[a, b] = sum;
+                            }
+                            else
+                            {
+                                // if they are opposed then subtract the resistance
+                                resistances[a, b] = (sum * -1);
+                            }
+                        }
+                    }
+                }
+            }
 
-            int[] loopcurrents = new int[numloops];
+            for(int a = 0; a < numloops; a++)
+            {
+                for(int b = 0; b < numloops; b++)
+                {
+                    Console.Write(resistances[a,b] + " ");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+            var coefficients = Matrix<double>.Build.DenseOfArray(resistances);
 
+            //sum all the voltage sources in each loop
+            double[] vsum = new double[numloops];
+            for(int i = 0; i < numloops; i++)
+            {
+                double sum = 0;
+                for(int a = 0; a < elements.Count; a++)
+                {
+                    //if the element produces voltage
+                    if(elements[a].voltage > 0)
+                    {
+                        sum += elements[a].voltage;
+                    }
+                }
+                vsum[i] = sum;
+            }
+            var target = Vector<double>.Build.Dense(vsum);
+            //solve equations and return current
+            var loopcurrents = coefficients.Solve(target).ToArray();
             return loopcurrents;
         }
     }
