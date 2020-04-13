@@ -118,7 +118,7 @@ namespace personal_project
                         treeconnections[b,a] = 1;
                         treenodes[b] = 1;
                     }
-                    if(ajacent[a, b] == 1 && treenodes[a] == 0 && treenodes[b] == 1)
+                    if(ajacent[a,b] == 1 && treenodes[a] == 0 && treenodes[b] == 1)
                     {
                         treeconnections[a, b] = 1;
                         treeconnections[b, a] = 1;
@@ -140,12 +140,14 @@ namespace personal_project
                 {
                     string startname = elements[a].name;
                     string endname = elements[b].name;
-                    if (adj[a, b] == 1 && tree[a, b] == 0 && connections.Contains(new Tuple<string, string>(startname, endname)))
+                    if (adj[a, b] == 1 && tree[a, b] == 0 && (connections.Contains(new Tuple<string, string>(startname, endname))))
                     {
                         unused.Add(new Tuple<int, int>(a, b));
                     }
                 }
             }
+
+            Console.WriteLine(unused.Count + " unused edges");
 
             //set up array to store loops
             int[,] loops = new int[unused.Count , elements.Count];

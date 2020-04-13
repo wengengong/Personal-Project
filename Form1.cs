@@ -387,7 +387,21 @@ namespace personal_project
             }
             Console.Write("\n");
             //update circuit UI
-
+            ToolTip t = new ToolTip();
+            for (int a = 0; a < (orientloops.Length / circuit.elements.Count); a++)
+            {
+                for (int b = 0; b < circuit.elements.Count; b++)
+                {
+                    if (orientloops[a, b] > 0)
+                    {
+                        //set tooltip 
+                        t.SetToolTip(circuit.elements[b].box, 
+                            "Voltage: " + (circuit.elements[b].resistance * current[a] * -1) + "\n" +
+                            "target V: " + circuit.elements[b].voltage + "\n" +
+                            "C: " + current[a]);
+                    }
+                }
+            }
         }
 
         //draws a line connecting to lines
