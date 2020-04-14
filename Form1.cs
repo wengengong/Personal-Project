@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using DraggableControls;
-
+using Newtonsoft.Json;
 namespace personal_project
 {
     public partial class Form1 : Form
@@ -379,28 +380,36 @@ namespace personal_project
             Console.Write("\n");
 
             //generate circuit equations and solve
-            double[] current = circuit.solve(orientloops);
-            //check equations
-            foreach (double d in current)
+            try
             {
-                Console.Write(d + " ");
-            }
-            Console.Write("\n");
-            //update circuit UI
-            ToolTip t = new ToolTip();
-            for (int a = 0; a < (orientloops.Length / circuit.elements.Count); a++)
-            {
-                for (int b = 0; b < circuit.elements.Count; b++)
+                double[] current = circuit.solve(orientloops);
+                //check equations
+                foreach (double d in current)
                 {
-                    if (orientloops[a, b] > 0)
+                    Console.Write(d + " ");
+                }
+                Console.Write("\n");
+                //update circuit UI
+                ToolTip t = new ToolTip();
+                for (int a = 0; a < (orientloops.Length / circuit.elements.Count); a++)
+                {
+                    for (int b = 0; b < circuit.elements.Count; b++)
                     {
-                        //set tooltip 
-                        t.SetToolTip(circuit.elements[b].box, 
-                            "Voltage: " + (circuit.elements[b].resistance * current[a] * -1) + "\n" +
-                            "target V: " + circuit.elements[b].voltage + "\n" +
-                            "C: " + current[a]);
+                        if (orientloops[a, b] > 0)
+                        {
+                            //set tooltip 
+                            t.SetToolTip(circuit.elements[b].box,
+                                "Voltage: " + (circuit.elements[b].resistance * current[a] * -1) + "\n" +
+                                "target V: " + circuit.elements[b].voltage + "\n" +
+                                "C: " + current[a]);
+                        }
                     }
                 }
+            }
+            catch
+            {
+                //error message if failed to solve
+                MessageBox.Show("Failed to solve, this may be because:\nthe circuit is incomplete / no cycles\nthere was a problem when constructing the circuit\n \n please try rebuilding");
             }
         }
 
@@ -423,6 +432,42 @@ namespace personal_project
                 Component start = circuit.elements.Find(x => x.name == connection.Item1);
                 Component end = circuit.elements.Find(x => x.name == connection.Item2);
                 draw_line(start.box.Location + new Size(start.box.Width / 2, start.box.Height / 2), end.box.Location + new Size(end.box.Width / 2, end.box.Height / 2));
+            }
+        }
+
+        private void btn_save_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog path = new SaveFileDialog();
+            path.ShowDialog();
+            if (path.FileName != "")
+            {
+                circuit.save(path.FileName);
+            }
+        }
+
+        private void btn_load_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog path = new OpenFileDialog();
+            if (path.ShowDialog() == DialogResult.OK)
+            {
+                //remove_btn all the boxes
+                foreach (Component c in circuit.elements)
+                {
+                    this.Controls.Remove(c.box);
+                }
+                //clears lines
+                line.Clear(Color.White);
+                //load saved circuit
+                circuit.load(path.FileName);
+                //update UI
+                foreach(Component c in circuit.elements)
+                {
+                    c.box.MouseUp += new MouseEventHandler(refreshline);
+                    this.Controls.Add(c.box);
+                }
+                MouseButtons b = new MouseButtons();
+                MouseEventArgs t = new MouseEventArgs(b, 1, 0, 0, 0);
+                refreshline(sender, t);
             }
         }
     }

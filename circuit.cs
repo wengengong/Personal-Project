@@ -5,10 +5,11 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using DraggableControls;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-
+using Newtonsoft.Json;
 
 namespace personal_project
 {
@@ -16,7 +17,7 @@ namespace personal_project
     {
         public List<Component> elements = new List<Component>();
         public List<Tuple<string, string>> connections = new List<Tuple<string, string>>();
-        int element_counter = 0;
+        public int element_counter = 0;
 
         public PictureBox addelement(Color colour, string name, int x, int y, double v, double c, double r, double n)
         {
@@ -388,6 +389,74 @@ namespace personal_project
             //solve equations and return current
             var loopcurrents = coefficients.Solve(target).ToArray();
             return loopcurrents;
+        }
+
+        public void save(string path)
+        {
+            //convert to savable format since i can't save windows form objects
+            savable temp = new savable();
+            foreach(Component c in elements)
+            {
+                elemebt_object elem = new elemebt_object();
+                elem.name = c.name;
+                elem.voltage = c.voltage;
+                elem.current = c.current;
+                elem.resistance = c.resistance;
+                elem.numconnections = c.numconnections;
+                elem.type = c.type;
+                elem.box_name = c.box.Name;
+                elem.colour = c.box.BackColor;
+                elem.width = c.box.ClientSize.Width;
+                elem.hight = c.box.ClientSize.Height;
+                elem.location = c.box.Location;
+                temp.elements.Add(elem);
+            }
+            foreach(Tuple<string,string> t in connections)
+            {
+                temp.connections.Add(t);
+            }
+            temp.element_counter = element_counter;
+            //save to json
+            using (StreamWriter file = File.CreateText(path))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, temp);
+            }
+        }
+
+        public void load(string path)
+        {
+            //clear lists
+            elements.Clear();
+            connections.Clear();
+            element_counter = 0;
+            //load file
+            savable temp = new savable();
+            using (StreamReader file = File.OpenText(path))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                temp = (savable)serializer.Deserialize(file, typeof(savable));
+            }
+            foreach(elemebt_object e in temp.elements)
+            {
+                PictureBox p = new PictureBox();
+                p.SizeMode = PictureBoxSizeMode.StretchImage;
+                p.ClientSize = new Size(e.width, e.hight);
+                p.Location = e.location;
+                p.BackColor = e.colour;
+                p.Name = e.type + element_counter;
+                element_counter++;
+                p.Visible = true;
+                p.Draggable(true);
+                Component c = new Component(e.name, e.voltage, e.current, e.resistance, e.numconnections, p, e.type);
+                elements.Add(c);
+            }
+            foreach(Tuple<string,string> t in temp.connections)
+            {
+                connections.Add(t);
+            }
+            element_counter = temp.element_counter;
+            //
         }
     }
 }
