@@ -24,6 +24,8 @@ namespace personal_project
         static string target = "";
         string state = "";
         Graphics line;
+        ToolTip t = new ToolTip();
+        List<elemebt_object> buttons = new List<elemebt_object>();
 
         public Form1()
         {
@@ -32,48 +34,37 @@ namespace personal_project
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //line graphic
             line = CreateGraphics();
-            //add the buttons to the flow layout panel
-            component_flowLayoutPanel.Controls.Add(resistor_btn);
-            component_flowLayoutPanel.Controls.Add(battery_btn);
-            component_flowLayoutPanel.Controls.Add(LED_btn);
-            component_flowLayoutPanel.Controls.Add(switch_btn);
-            component_flowLayoutPanel.Controls.Add(joint_btn);
+
+            //import buttons
+            using (StreamReader file = File.OpenText(@"buttons"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                buttons = (List<elemebt_object>)serializer.Deserialize(file, typeof(List<elemebt_object>));
+            }
+            foreach (elemebt_object elem in buttons)
+            {
+                Button temp = new Button();
+                temp.Text = elem.name;
+                temp.Name = elem.name;
+                temp.Size = new Size(63, 22);
+                temp.BackColor = Color.Gainsboro;
+                temp.Click += new EventHandler(general_button_handler);
+                component_flowLayoutPanel.Controls.Add(temp);
+            }
         }
 
-        //button handlers
-        private void resistor_btn_Click(object sender, EventArgs e)
+        //general button handler
+        public void general_button_handler(object sender, EventArgs e)
         {
+            Button temp = (sender as Button);
             state = "";
             updatebuttons();
-            makebox(Color.Green, "resistor", 35, 20, 0, 0, 500, 2);
-        }
-
-        private void battery_btn_Click(object sender, EventArgs e)
-        {
-            state = "";
-            updatebuttons();
-            makebox(Color.Yellow, "battery", 35, 35, 1.5, 0, 0, 2);
-        }
-
-        private void LED_btn_Click(object sender, EventArgs e)
-        {
-            state = "";
-            updatebuttons();
-            makebox(Color.LightYellow, "LED", 35, 35, -0.5, 0, 10 , 2);
-        }
-        private void switch_btn_Click(object sender, EventArgs e)
-        {
-            state = "";
-            updatebuttons();
-            makebox(Color.Blue, "switch", 35, 35, 0, 0, 0, 2);
-        }
-
-        private void joint_btn_Click(object sender, EventArgs e)
-        {
-            state = "";
-            updatebuttons();
-            makebox(Color.Black, "joint", 8, 8, 0, 0, 0, double.PositiveInfinity);
+            //find the button data
+            elemebt_object data = buttons.Find(i => i.name == temp.Name);
+            // make the component
+            makebox(data.colour, data.name, data.width, data.hight, data.voltage, data.current, data.resistance, data.numconnections);
         }
 
         public void makebox (Color colour, string name,int x, int y, double v, double c, double r, double n)
@@ -326,7 +317,11 @@ namespace personal_project
         {
             state = "";
             updatebuttons();
-
+            //cremove all existing tooltips
+            foreach(Component c in circuit.elements)
+            {
+                t.RemoveAll();
+            }
             //get adjacency matrix
             int[,] adj = circuit.genadjacency();
             //check matrix
@@ -390,7 +385,6 @@ namespace personal_project
                 }
                 Console.Write("\n");
                 //update circuit UI
-                ToolTip t = new ToolTip();
                 for (int a = 0; a < (orientloops.Length / circuit.elements.Count); a++)
                 {
                     for (int b = 0; b < circuit.elements.Count; b++)
