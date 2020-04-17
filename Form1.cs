@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 using DraggableControls;
 using Newtonsoft.Json;
 namespace personal_project
@@ -26,6 +27,7 @@ namespace personal_project
         Graphics line;
         ToolTip t = new ToolTip();
         List<elemebt_object> buttons = new List<elemebt_object>();
+        handlers handler;
 
         public Form1()
         {
@@ -36,6 +38,7 @@ namespace personal_project
         {
             //line graphic
             line = CreateGraphics();
+            handler = new handlers(ref circuit);
 
             //import buttons
             using (StreamReader file = File.OpenText(@"buttons"))
@@ -71,9 +74,21 @@ namespace personal_project
         {
             //creates component and picturebox in the circuit
             //then returns the picturebox and adds the picture box to form
-            this.Controls.Add(circuit.addelement(colour, name, x, y, v, c, r, n));
+            PictureBox temp = circuit.addelement(colour, name, x, y, v, c, r, n);
+            temp.DoubleClick += new EventHandler(add_handler);
+            this.Controls.Add(temp);
         }
 
+        public void add_handler(object sender, EventArgs e)
+        {
+            try
+            {
+                //if there is a handler method with the same name as the sender it will run it
+                PictureBox temp = (sender as PictureBox);
+                typeof(handlers).GetMethod(circuit.get(temp.Name).type).Invoke(handler, new object[] { temp.Name });
+            }
+            catch {}
+        }
         private void connect_btn_Click(object sender, EventArgs e)
         {
             if (state != "connecting") 

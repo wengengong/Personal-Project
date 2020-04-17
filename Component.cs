@@ -13,9 +13,7 @@ namespace personal_project
         public double voltage { get; set; }
         public double current { get; set; }
         public double resistance { get; set; }
-
         public double numconnections { get; set; }
-
         public string type { get; set; }
 
         public PictureBox box;
