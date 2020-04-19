@@ -18,7 +18,7 @@ namespace personal_project
             temp = c;
         }
 
-        public void resistor(string name)
+        public void Resistor(string name)
         {
             string input = Interaction.InputBox("change resistance", "input", "500");
             try
@@ -47,5 +47,19 @@ namespace personal_project
             }
         }
 
+        public void Battery(string name)
+        {
+            string input = Interaction.InputBox("change voltage", "input", "1.5");
+            try
+            {
+                //get new resistance value
+                temp.get(name).voltage = Convert.ToDouble(input);
+                System.Console.WriteLine("voltage is now " + temp.get(name).resistance);
+            }
+            catch
+            {
+                MessageBox.Show("invalid input");
+            }
+        }
     }
 }
