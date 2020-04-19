@@ -40,21 +40,28 @@ namespace personal_project
             line = CreateGraphics();
             handler = new handlers(ref circuit);
 
-            //import buttons
-            using (StreamReader file = File.OpenText(@"buttons"))
+            try
             {
-                JsonSerializer serializer = new JsonSerializer();
-                buttons = (List<elemebt_object>)serializer.Deserialize(file, typeof(List<elemebt_object>));
+                //import buttons
+                using (StreamReader file = File.OpenText(@"buttons"))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    buttons = (List<elemebt_object>)serializer.Deserialize(file, typeof(List<elemebt_object>));
+                }
+                foreach (elemebt_object elem in buttons)
+                {
+                    Button temp = new Button();
+                    temp.Text = elem.name;
+                    temp.Name = elem.name;
+                    temp.Size = new Size(63, 22);
+                    temp.BackColor = Color.Gainsboro;
+                    temp.Click += new EventHandler(general_button_handler);
+                    component_flowLayoutPanel.Controls.Add(temp);
+                }
             }
-            foreach (elemebt_object elem in buttons)
+            catch
             {
-                Button temp = new Button();
-                temp.Text = elem.name;
-                temp.Name = elem.name;
-                temp.Size = new Size(63, 22);
-                temp.BackColor = Color.Gainsboro;
-                temp.Click += new EventHandler(general_button_handler);
-                component_flowLayoutPanel.Controls.Add(temp);
+                MessageBox.Show("Failed to load buttons, check if there is a \"buttons\" file");
             }
         }
 
