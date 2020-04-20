@@ -73,7 +73,7 @@
     <Compile Include="circuit.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="DraggableControls.cs" />
-    <Compile Include="elemebt_object.cs" />
+    <Compile Include="element_object.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

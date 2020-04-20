@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace personal_project
 {
-    class elemebt_object
+    class element_object
     {
         public string name { get; set; }
         public double voltage { get; set; }

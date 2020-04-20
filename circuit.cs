@@ -397,7 +397,7 @@ namespace personal_project
             savable temp = new savable();
             foreach(Component c in elements)
             {
-                elemebt_object elem = new elemebt_object();
+                element_object elem = new element_object();
                 elem.name = c.name;
                 elem.voltage = c.voltage;
                 elem.current = c.current;
@@ -437,7 +437,7 @@ namespace personal_project
                 JsonSerializer serializer = new JsonSerializer();
                 temp = (savable)serializer.Deserialize(file, typeof(savable));
             }
-            foreach(elemebt_object e in temp.elements)
+            foreach(element_object e in temp.elements)
             {
                 PictureBox p = new PictureBox();
                 p.SizeMode = PictureBoxSizeMode.StretchImage;

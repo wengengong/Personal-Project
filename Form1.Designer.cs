@@ -33,8 +33,8 @@
             this.remove_btn = new System.Windows.Forms.Button();
             this.component_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.simulate_btn = new System.Windows.Forms.Button();
-            this.btn_save = new System.Windows.Forms.Button();
-            this.btn_load = new System.Windows.Forms.Button();
+            this.save_btn = new System.Windows.Forms.Button();
+            this.load_btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // connect_btn
@@ -90,25 +90,25 @@
             this.simulate_btn.UseVisualStyleBackColor = true;
             this.simulate_btn.Click += new System.EventHandler(this.simulate_btn_Click);
             // 
-            // btn_save
+            // save_btn
             // 
-            this.btn_save.Location = new System.Drawing.Point(513, 7);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 23);
-            this.btn_save.TabIndex = 12;
-            this.btn_save.Text = "Save";
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            this.save_btn.Location = new System.Drawing.Point(513, 7);
+            this.save_btn.Name = "save_btn";
+            this.save_btn.Size = new System.Drawing.Size(75, 23);
+            this.save_btn.TabIndex = 12;
+            this.save_btn.Text = "Save";
+            this.save_btn.UseVisualStyleBackColor = true;
+            this.save_btn.Click += new System.EventHandler(this.btn_save_Click);
             // 
-            // btn_load
+            // load_btn
             // 
-            this.btn_load.Location = new System.Drawing.Point(432, 7);
-            this.btn_load.Name = "btn_load";
-            this.btn_load.Size = new System.Drawing.Size(75, 23);
-            this.btn_load.TabIndex = 13;
-            this.btn_load.Text = "Load";
-            this.btn_load.UseVisualStyleBackColor = true;
-            this.btn_load.Click += new System.EventHandler(this.btn_load_Click);
+            this.load_btn.Location = new System.Drawing.Point(432, 7);
+            this.load_btn.Name = "load_btn";
+            this.load_btn.Size = new System.Drawing.Size(75, 23);
+            this.load_btn.TabIndex = 13;
+            this.load_btn.Text = "Load";
+            this.load_btn.UseVisualStyleBackColor = true;
+            this.load_btn.Click += new System.EventHandler(this.btn_load_Click);
             // 
             // Form1
             // 
@@ -116,8 +116,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(600, 366);
-            this.Controls.Add(this.btn_load);
-            this.Controls.Add(this.btn_save);
+            this.Controls.Add(this.load_btn);
+            this.Controls.Add(this.save_btn);
             this.Controls.Add(this.simulate_btn);
             this.Controls.Add(this.component_flowLayoutPanel);
             this.Controls.Add(this.remove_btn);
@@ -137,8 +137,8 @@
         private System.Windows.Forms.Button remove_btn;
         private System.Windows.Forms.FlowLayoutPanel component_flowLayoutPanel;
         private System.Windows.Forms.Button simulate_btn;
-        private System.Windows.Forms.Button btn_save;
-        private System.Windows.Forms.Button btn_load;
+        private System.Windows.Forms.Button save_btn;
+        private System.Windows.Forms.Button load_btn;
     }
 }
 

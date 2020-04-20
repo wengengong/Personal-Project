@@ -26,7 +26,7 @@ namespace personal_project
         string state = "";
         Graphics line;
         ToolTip t = new ToolTip();
-        List<elemebt_object> buttons = new List<elemebt_object>();
+        List<element_object> buttons = new List<element_object>();
         handlers handler;
 
         public Form1()
@@ -46,9 +46,9 @@ namespace personal_project
                 using (StreamReader file = File.OpenText(@"buttons"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
-                    buttons = (List<elemebt_object>)serializer.Deserialize(file, typeof(List<elemebt_object>));
+                    buttons = (List<element_object>)serializer.Deserialize(file, typeof(List<element_object>));
                 }
-                foreach (elemebt_object elem in buttons)
+                foreach (element_object elem in buttons)
                 {
                     Button temp = new Button();
                     temp.Text = elem.name;
@@ -72,7 +72,7 @@ namespace personal_project
             state = "";
             updatebuttons();
             //find the button data
-            elemebt_object data = buttons.Find(i => i.name == temp.Name);
+            element_object data = buttons.Find(i => i.name == temp.Name);
             // make the component
             makebox(data.colour, data.name, data.width, data.hight, data.voltage, data.current, data.resistance, data.numconnections);
         }
