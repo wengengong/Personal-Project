@@ -23,9 +23,13 @@ namespace personal_project
             string input = Interaction.InputBox("change resistance", "input", "500");
             try
             {
-                //get new resistance value
-                temp.get(name).resistance = Convert.ToDouble(input);
-                System.Console.WriteLine("resistance is now " + temp.get(name).resistance);
+                if (input == ""){}
+                else
+                {
+                    //get new resistance value
+                    temp.get(name).resistance = Convert.ToDouble(input);
+                    System.Console.WriteLine("resistance is now " + temp.get(name).resistance);
+                }
             }
             catch
             {

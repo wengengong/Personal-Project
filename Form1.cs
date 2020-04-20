@@ -414,10 +414,19 @@ namespace personal_project
                         if (orientloops[a, b] > 0)
                         {
                             //set tooltip 
-                            t.SetToolTip(circuit.elements[b].box,
-                                "Voltage: " + (circuit.elements[b].resistance * current[a] * -1) + "\n" +
-                                "target V: " + circuit.elements[b].voltage + "\n" +
-                                "C: " + current[a]);
+                            if (circuit.elements[b].type == "Battery")
+                            {
+                                t.SetToolTip(circuit.elements[b].box,
+                                   "Voltage drop: " + (circuit.elements[b].voltage) + "\n" +
+                                   "Current: " + current[a]);
+                            }
+                            else
+                            {
+                                t.SetToolTip(circuit.elements[b].box,
+                                   "Voltage drop: " + (circuit.elements[b].resistance * current[a] * -1) + "\n" +
+                                   "target Voltage: " + circuit.elements[b].voltage + "\n" +
+                                   "Current: " + current[a]);
+                            }   
                         }
                     }
                 }
@@ -479,6 +488,7 @@ namespace personal_project
                 foreach(Component c in circuit.elements)
                 {
                     c.box.MouseUp += new MouseEventHandler(refreshline);
+                    c.box.Click += new EventHandler(add_handler);
                     this.Controls.Add(c.box);
                 }
                 MouseButtons b = new MouseButtons();

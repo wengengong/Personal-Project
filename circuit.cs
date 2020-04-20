@@ -456,7 +456,6 @@ namespace personal_project
                 connections.Add(t);
             }
             element_counter = temp.element_counter;
-            //
         }
     }
 }
