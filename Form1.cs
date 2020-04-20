@@ -488,7 +488,7 @@ namespace personal_project
                 foreach(Component c in circuit.elements)
                 {
                     c.box.MouseUp += new MouseEventHandler(refreshline);
-                    c.box.Click += new EventHandler(add_handler);
+                    c.box.DoubleClick += new EventHandler(add_handler);
                     this.Controls.Add(c.box);
                 }
                 MouseButtons b = new MouseButtons();

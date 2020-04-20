@@ -56,9 +56,13 @@ namespace personal_project
             string input = Interaction.InputBox("change voltage", "input", "1.5");
             try
             {
-                //get new resistance value
-                temp.get(name).voltage = Convert.ToDouble(input);
-                System.Console.WriteLine("voltage is now " + temp.get(name).resistance);
+                if (input == "") { }
+                else
+                {
+                    //get new resistance value
+                    temp.get(name).voltage = Convert.ToDouble(input);
+                    System.Console.WriteLine("voltage is now " + temp.get(name).resistance);
+                } 
             }
             catch
             {
